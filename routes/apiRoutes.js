@@ -52,7 +52,7 @@ module.exports = function (app) {
     // Route for getting all Thoughts from the db
     app.get("/thoughts", function (req, res) {
         // Grab every document in the Thoughts collection
-        db.Thought.find({})
+        db.Thought.find({}).sort({_id: 'descending'})
             .then(function (dbThought) {
                 // If we were able to successfully find Thoughts, send them back to the client
                 res.json(dbThought);

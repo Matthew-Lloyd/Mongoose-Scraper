@@ -1,13 +1,27 @@
 // Grab the articles as a json
-// $.getJSON("/articles", function (data) {
-//     // For each one
-//     for (var i = 0; i < data.length; i++) {
-//         // Display the apropos information on the page
-//         $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
-//     }
+// $.getJSON("/thoughts", function (data) {
+
 // });
-//Perform the scrape by clicking the Scrape button
-$(document).on("click", "#scrape", function () {
+$(document).on("click", "#list", function () {
+    $.ajax({
+        method: "GET",
+        url: "/thoughts"
+    })
+    .then(function(data) {
+        console.log(data);
+        $("#thoughts").empty();
+        // For each one
+        for (var i = 0; i < data.length; i++) {
+            // Display the apropos information on the page
+            $("#thoughts").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br /><a href='https://www.reddit.com" + data[i].link + "'><button class='btn-primary'>Comments</button></a></p>");
+        }
+        
+    })
+
+});
+
+//Perform the scrape by clicking the Scraper button
+$(document).on("click", "#scraper", function () {
     $.ajax({
         method: "GET",
         url: "/scrape"
@@ -18,23 +32,12 @@ $(document).on("click", "#scrape", function () {
         })
             // With that done, add the note information to the page
             .then(function (data) {
+                $("#thoughts").empty();
                 console.log(data);
-                // // The title of the article
-                // $("#notes").append("<h2>" + data.title + "</h2>");
-                // // An input to enter a new title
-                // $("#notes").append("<input id='titleinput' name='title' >");
-                // // A textarea to add a new note body
-                // $("#notes").append("<textarea id='bodyinput' name='body'></textarea>");
-                // // A button to submit a new note, with the id of the article saved to it
-                // $("#notes").append("<button data-id='" + data._id + "' id='savenote'>Save Note</button>");
-
-                // // If there's a note in the article
-                // if (data.note) {
-                //     // Place the title of the note in the title input
-                //     $("#titleinput").val(data.note.title);
-                //     // Place the body of the note in the body textarea
-                //     $("#bodyinput").val(data.note.body);
-                // }
+                for (var i = 0; i < data.length; i++) {
+                    // Display the apropos information on the page
+                    $("#thoughts").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br /><a href='https://www.reddit.com" + data[i].link + "'><button class='btn-primary'>Comments</button></a></p>");
+                }
             });
     });
 })
